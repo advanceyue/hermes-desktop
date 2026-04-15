@@ -225,44 +225,61 @@ A: Everything stays on your machine in `~/.hermes/` — config, API keys, chat h
 ### Prerequisites
 
 - Node.js >= 22
-- [hermes-agent](https://github.com/NousResearch/hermes-agent) cloned at `~/.hermes/hermes-agent`
-- [hermes-webui](https://github.com/nesquena/hermes-webui) cloned at `~/code/hermes-webui`
+- Git
 
-### Build
+### macOS (arm64)
 
 ```bash
-# Install dependencies
+# 1. Clone this repo
+git clone https://github.com/advanceyue/hermes-desktop.git
+cd hermes-desktop
+
+# 2. Clone dependencies (hermes-agent + hermes-webui)
+git clone https://github.com/NousResearch/hermes-agent.git ~/.hermes/hermes-agent
+git clone https://github.com/nesquena/hermes-webui.git ~/code/hermes-webui
+
+# 3. Install Node.js dependencies
 npm install
 
-# Package resources (downloads Python 3.11, Node.js 22, ripgrep, installs hermes-agent)
+# 4. Package resources (auto-downloads Python 3.11, Node.js 22, ripgrep)
 npm run package:resources -- --platform darwin --arch arm64
 
-# Compile TypeScript
+# 5. Build DMG
 npm run build
-
-# Build macOS DMG (arm64)
 npm run dist:mac:arm64
-
-# Build macOS DMG (x64)
-npm run dist:mac:x64
 ```
 
 Output: `out/darwin-arm64/HermesDesktop-{version}-arm64.dmg`
 
+### macOS (Intel x64)
+
+```bash
+npm run package:resources -- --platform darwin --arch x64
+npm run build
+npm run dist:mac:x64
+```
+
+### Windows (x64)
+
+```bash
+# Must run on Windows (Python venv is platform-specific)
+git clone https://github.com/NousResearch/hermes-agent.git %USERPROFILE%\.hermes\hermes-agent
+git clone https://github.com/nesquena/hermes-webui.git %USERPROFILE%\code\hermes-webui
+
+npm install
+npm run package:resources -- --platform win32 --arch x64
+npm run build
+npm run dist:win:x64
+```
+
 ### Custom Source Paths
+
+If hermes-agent or hermes-webui are in non-default locations:
 
 ```bash
 HERMES_AGENT_DIR=/path/to/hermes-agent \
 HERMES_WEBUI_DIR=/path/to/hermes-webui \
-npm run package:resources
-```
-
-### Windows (experimental)
-
-```bash
-# Must run on Windows (venv is platform-specific)
-npm run package:resources -- --platform win32 --arch x64
-npm run dist:win:x64
+npm run package:resources -- --platform darwin --arch arm64
 ```
 
 ---
