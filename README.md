@@ -284,6 +284,16 @@ npm run package:resources -- --platform darwin --arch arm64
 
 ---
 
+## 💬 交流群
+
+扫码加入 Hermes 交流群，和其他用户一起交流使用心得：
+
+<p align="center">
+  <img src="assets/wechat-group-qr.png" width="280" alt="Hermes 交流群二维码" />
+</p>
+
+> 使用微信或企业微信扫码加入。二维码过期后会更新。
+
 ## ⭐ 觉得有用？给个 Star 吧
 
 如果 Hermes Desktop 帮到了你，请给个 ⭐ Star 支持一下！
