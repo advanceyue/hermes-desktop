@@ -208,7 +208,8 @@ async function createVenv() {
     : path.join(venvDir, "bin", "pip");
 
   exec(`"${pipBin}" install --upgrade pip`, { stdio: "pipe" });
-  exec(`"${pipBin}" install -e "${HERMES_AGENT_DIR}[cli,pty,mcp,web,voice,messaging]"`);
+  // 不用 -e（editable），确保代码实际复制到 site-packages，便于在其他机器上运行
+  exec(`"${pipBin}" install "${HERMES_AGENT_DIR}[cli,pty,mcp,web,voice,messaging]"`);
   exec(`"${pipBin}" install pyyaml>=6.0`, { stdio: "pipe" });
 
   writeStamp("venv", "hermes-agent-latest");
