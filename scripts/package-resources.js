@@ -153,8 +153,8 @@ async function installPython() {
   const archMap = {
     "darwin-arm64": "aarch64-apple-darwin",
     "darwin-x64": "x86_64-apple-darwin",
-    "win32-x64": "x86_64-pc-windows-msvc-shared",
-    "win32-arm64": "aarch64-pc-windows-msvc-shared",
+    "win32-x64": "x86_64-pc-windows-msvc",
+    "win32-arm64": "aarch64-pc-windows-msvc",
   };
   const triple = archMap[targetId];
   if (!triple) throw new Error(`不支持的平台: ${targetId}`);
@@ -203,14 +203,14 @@ async function createVenv() {
   }
   exec(`"${pythonBin}" -m venv "${venvDir}"`, { stdio: "pipe" });
 
-  const pipBin = targetPlatform === "win32"
-    ? path.join(venvDir, "Scripts", "pip")
-    : path.join(venvDir, "bin", "pip");
+  const venvPythonBin = targetPlatform === "win32"
+    ? path.join(venvDir, "Scripts", "python.exe")
+    : path.join(venvDir, "bin", "python3.11");
 
-  exec(`"${pipBin}" install --upgrade pip`, { stdio: "pipe" });
+  exec(`"${venvPythonBin}" -m pip install --upgrade pip`, { stdio: "pipe" });
   // 不用 -e（editable），确保代码实际复制到 site-packages，便于在其他机器上运行
-  exec(`"${pipBin}" install "${HERMES_AGENT_DIR}[cli,pty,mcp,web,voice,messaging]"`);
-  exec(`"${pipBin}" install "pyyaml>=6.0"`, { stdio: "pipe" });
+  exec(`"${venvPythonBin}" -m pip install "${HERMES_AGENT_DIR}[cli,pty,mcp,web,voice,messaging]"`);
+  exec(`"${venvPythonBin}" -m pip install "pyyaml>=6.0"`, { stdio: "pipe" });
 
   writeStamp("venv", "hermes-agent-latest");
   console.log(`  venv 创建完成\n`);
@@ -259,7 +259,7 @@ async function installNodejs() {
   fs.mkdirSync(tmpDir, { recursive: true });
 
   if (targetPlatform === "win32") {
-    exec(`unzip -q "${cachePath}" -d "${tmpDir}"`, { stdio: "pipe" });
+    exec(`tar xf "${cachePath}" -C "${tmpDir}"`, { stdio: "pipe" });
     const extracted = path.join(tmpDir, `node-v${NODE_VERSION}-${nodeArch}`);
     for (const f of ["node.exe"]) {
       const src = path.join(extracted, f);
@@ -321,7 +321,7 @@ async function installRipgrep() {
   fs.mkdirSync(tmpDir, { recursive: true });
 
   if (targetPlatform === "win32") {
-    exec(`unzip -q "${cachePath}" -d "${tmpDir}"`, { stdio: "pipe" });
+    exec(`tar xf "${cachePath}" -C "${tmpDir}"`, { stdio: "pipe" });
   } else {
     exec(`tar xzf "${cachePath}" -C "${tmpDir}"`, { stdio: "pipe" });
   }
