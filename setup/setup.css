@@ -186,9 +186,18 @@ h1 {
 }
 
 /* Input */
+.input-label {
+  display: block;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
 .input-group {
   position: relative;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 .input-group input {
   width: 100%;
@@ -221,6 +230,14 @@ h1 {
   font-size: 13px;
   margin-top: 4px;
   text-align: left;
+}
+
+.api-key-hint {
+  color: var(--text-dim);
+  font-size: 12px;
+  text-align: left;
+  margin-top: 2px;
+  margin-bottom: 8px;
 }
 
 /* Spinner */

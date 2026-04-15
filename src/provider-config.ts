@@ -9,6 +9,14 @@ export interface HermesProvider {
   envVar: string;
   defaultModel: string;
   models: string[];
+  /** If true, the user can enter a custom base URL for the API endpoint. */
+  customBaseUrl?: boolean;
+  /** Default base URL (shown as placeholder). */
+  defaultBaseUrl?: string;
+  /** If true, the API key is optional (e.g. local models). */
+  apiKeyOptional?: boolean;
+  /** If true, the user can type a free-form model name instead of picking from the list. */
+  customModelInput?: boolean;
 }
 
 export const PROVIDERS: HermesProvider[] = [
@@ -46,5 +54,27 @@ export const PROVIDERS: HermesProvider[] = [
     envVar: "DEEPSEEK_API_KEY",
     defaultModel: "deepseek-chat",
     models: ["deepseek-chat", "deepseek-reasoner"],
+  },
+  {
+    id: "ollama",
+    label: "Ollama (Local)",
+    envVar: "OPENAI_API_KEY",
+    defaultModel: "",
+    models: [],
+    customBaseUrl: true,
+    defaultBaseUrl: "http://localhost:11434/v1",
+    apiKeyOptional: true,
+    customModelInput: true,
+  },
+  {
+    id: "custom",
+    label: "Custom (OpenAI Compatible)",
+    envVar: "OPENAI_API_KEY",
+    defaultModel: "",
+    models: [],
+    customBaseUrl: true,
+    defaultBaseUrl: "http://localhost:8080/v1",
+    apiKeyOptional: false,
+    customModelInput: true,
   },
 ];
