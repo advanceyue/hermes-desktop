@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+  <title>Hermes Desktop Setup</title>
+  <link rel="stylesheet" href="setup.css">
+</head>
+<body>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <div class="steps-container" id="stepsContainer">
+
+    <!-- Step 1: Welcome -->
+    <section class="step active" id="step1">
+      <div class="step-content">
+        <div class="logo-area">
+          <div class="hermes-logo">H</div>
+        </div>
+        <h1 data-i18n="welcome.title">Welcome to Hermes Desktop</h1>
+        <p class="subtitle" data-i18n="welcome.subtitle">One-click AI agent by Nous Research. Let's get you set up.</p>
+        <button class="btn-primary" id="btnStart" data-i18n="welcome.start">Get Started</button>
+      </div>
+    </section>
+
+    <!-- Step 2: Provider Selection -->
+    <section class="step" id="step2">
+      <div class="step-content">
+        <h1 data-i18n="provider.title">Choose Your AI Provider</h1>
+        <p class="subtitle" data-i18n="provider.subtitle">Select the LLM provider you want to use.</p>
+        <div class="provider-list" id="providerList">
+          <button class="provider-card" data-provider="anthropic" data-model="claude-sonnet-4-20250514">
+            <span class="provider-name">Anthropic (Claude)</span>
+            <span class="provider-model">claude-sonnet-4</span>
+          </button>
+          <button class="provider-card" data-provider="openai" data-model="gpt-4o">
+            <span class="provider-name">OpenAI</span>
+            <span class="provider-model">gpt-4o</span>
+          </button>
+          <button class="provider-card" data-provider="gemini" data-model="gemini-2.5-pro">
+            <span class="provider-name">Google Gemini</span>
+            <span class="provider-model">gemini-2.5-pro</span>
+          </button>
+          <button class="provider-card" data-provider="openrouter" data-model="anthropic/claude-sonnet-4">
+            <span class="provider-name">OpenRouter</span>
+            <span class="provider-model">Multi-provider</span>
+          </button>
+          <button class="provider-card" data-provider="deepseek" data-model="deepseek-chat">
+            <span class="provider-name">DeepSeek</span>
+            <span class="provider-model">deepseek-chat</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 3: API Key -->
+    <section class="step" id="step3">
+      <div class="step-content">
+        <h1 data-i18n="apikey.title">Enter Your API Key</h1>
+        <p class="subtitle" id="apikeySubtitle">Paste your API key below.</p>
+        <div class="input-group">
+          <input type="password" id="apiKeyInput" placeholder="sk-..." autocomplete="off" spellcheck="false">
+          <button class="btn-toggle-visibility" id="btnToggleKey" title="Show/Hide">👁</button>
+        </div>
+        <p class="error-text" id="apiKeyError" style="display: none;"></p>
+        <div class="btn-row">
+          <button class="btn-secondary" id="btnBackToProvider" data-i18n="common.back">Back</button>
+          <button class="btn-primary" id="btnFinish" data-i18n="apikey.finish" disabled>Complete Setup</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 4: Done -->
+    <section class="step" id="step4">
+      <div class="step-content">
+        <div class="logo-area">
+          <div class="done-check">✓</div>
+        </div>
+        <h1 data-i18n="done.title">You're All Set!</h1>
+        <p class="subtitle" data-i18n="done.subtitle">Hermes Agent is starting up. Enjoy!</p>
+        <div class="spinner" id="doneSpinner"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="setup.js"></script>
+</body>
+</html>

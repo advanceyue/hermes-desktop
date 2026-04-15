@@ -1,0 +1,39 @@
+# 依赖
+node_modules/
+
+# 构建产物
+dist/
+out/
+*.tsbuildinfo
+
+# 打包时生成的运行时资源
+resources/targets/
+
+# 下载缓存
+.cache/
+
+# 系统缓存
+.DS_Store
+Thumbs.db
+
+# 签名密钥与本地环境变量
+.env
+private_keys/
+
+# IDE
+.claude/
+.gemini-clipboard/
+.vscode/
+.idea/
+
+# Git worktrees
+.worktree/
+.worktrees/
+
+# dev 多实例隔离状态目录
+.dev-state/
+
+# docs
+docs/plans/
+docs/research/
+docs/progress/

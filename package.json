@@ -1,0 +1,33 @@
+{
+  "name": "hermes-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hermes Desktop — one-click installer for Hermes Agent",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "predev": "npm install && npm run package:resources && npm run build",
+    "dev": "electron .",
+    "package:resources": "node scripts/package-resources.js",
+    "dist:mac": "npm run dist:mac:arm64",
+    "dist:mac:arm64": "npm run build && HERMES_DESKTOP_TARGET=darwin-arm64 npm run package:resources -- --platform darwin --arch arm64 && electron-builder --mac --arm64 --config.directories.output=out/darwin-arm64 --publish never",
+    "dist:mac:x64": "npm run build && HERMES_DESKTOP_TARGET=darwin-x64 npm run package:resources -- --platform darwin --arch x64 && electron-builder --mac --x64 --config.directories.output=out/darwin-x64 --publish never",
+    "clean": "rm -rf dist resources/targets out"
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.9"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "electron": "^40.2.1",
+    "electron-builder": "^26.7.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "hermes": {
+    "hermesAgent": "0.9.0",
+    "hermesWebUI": "0.50.38"
+  }
+}

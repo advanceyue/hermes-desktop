@@ -1,0 +1,51 @@
+appId: com.hermes-desktop.app
+productName: "Hermes Desktop"
+copyright: Copyright © 2025 Hermes Desktop
+
+directories:
+  output: out
+
+files:
+  - dist/**/*
+  - setup/**/*
+  - assets/**/*
+  - package.json
+
+# afterPack 钩子：注入 resources/ 到 app bundle
+afterPack: ./scripts/afterPack.js
+
+# --- macOS ---
+mac:
+  target:
+    - dmg
+    - zip
+  icon: assets/icon.icns
+  category: public.app-category.productivity
+  artifactName: "HermesDesktop-${version}-${arch}-mac.${ext}"
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  notarize: false
+
+publish:
+  provider: generic
+  url: https://hermes-desktop.example.com/releases/
+
+dmg:
+  sign: false
+  writeUpdateInfo: false
+  artifactName: "HermesDesktop-${version}-${arch}.${ext}"
+
+# --- Windows (Phase 2) ---
+win:
+  target: nsis
+  icon: assets/icon.ico
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: always
+  createStartMenuShortcut: true
+  runAfterFinish: true
+  differentialPackage: false
+  artifactName: "HermesDesktop-Setup-${version}-${arch}.${ext}"
