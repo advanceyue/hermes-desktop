@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>Download. Open. Chat. Your AI Agent, ready in seconds.</strong><br/>
-  一键安装，即刻开聊。零配置、零依赖的 <a href="https://github.com/NousResearch/hermes-agent">Hermes Agent</a> 桌面客户端。
+  下载、打开、对话。你的 AI Agent，秒级就绪。零配置、零依赖的 <a href="https://github.com/NousResearch/hermes-agent">Hermes Agent</a> 桌面客户端。
 </p>
 
 <p align="center">
