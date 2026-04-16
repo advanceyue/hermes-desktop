@@ -5,7 +5,7 @@
 <h1 align="center">⚕ Hermes Desktop</h1>
 
 <p align="center">
-  <strong>One Click Install, One Hermes Agent.</strong><br/>
+  <strong>Download. Open. Chat. Your AI Agent, ready in seconds.</strong><br/>
   一键安装，即刻开聊。零配置、零依赖的 <a href="https://github.com/NousResearch/hermes-agent">Hermes Agent</a> 桌面客户端。
 </p>
 
