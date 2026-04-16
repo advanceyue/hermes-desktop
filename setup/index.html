@@ -53,19 +53,45 @@
             <span class="provider-name">DeepSeek</span>
             <span class="provider-model">deepseek-chat</span>
           </button>
+          <button class="provider-card" data-provider="ollama" data-model="" data-custom="true" data-base-url="http://localhost:11434/v1" data-apikey-optional="true">
+            <span class="provider-name">Ollama (Local)</span>
+            <span class="provider-model" data-i18n="provider.ollama.desc">Local models</span>
+          </button>
+          <button class="provider-card" data-provider="custom" data-model="" data-custom="true" data-base-url="http://localhost:8080/v1">
+            <span class="provider-name" data-i18n="provider.custom.name">Custom (OpenAI Compatible)</span>
+            <span class="provider-model" data-i18n="provider.custom.desc">Any OpenAI-compatible API</span>
+          </button>
         </div>
       </div>
     </section>
 
-    <!-- Step 3: API Key -->
+    <!-- Step 3: API Key / Custom Config -->
     <section class="step" id="step3">
       <div class="step-content">
-        <h1 data-i18n="apikey.title">Enter Your API Key</h1>
+        <h1 id="step3Title" data-i18n="apikey.title">Enter Your API Key</h1>
         <p class="subtitle" id="apikeySubtitle">Paste your API key below.</p>
-        <div class="input-group">
-          <input type="password" id="apiKeyInput" placeholder="sk-..." autocomplete="off" spellcheck="false">
-          <button class="btn-toggle-visibility" id="btnToggleKey" title="Show/Hide">👁</button>
+
+        <!-- Custom provider fields (Base URL + Model Name) -->
+        <div id="customFields" style="display: none;">
+          <div class="input-group">
+            <label class="input-label" for="baseUrlInput" id="baseUrlLabel">Base URL</label>
+            <input type="text" id="baseUrlInput" placeholder="http://localhost:11434/v1" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="modelNameInput" id="modelNameLabel">Model Name</label>
+            <input type="text" id="modelNameInput" placeholder="llama3" autocomplete="off" spellcheck="false">
+          </div>
         </div>
+
+        <!-- API Key field -->
+        <div id="apiKeyField">
+          <div class="input-group">
+            <input type="password" id="apiKeyInput" placeholder="sk-..." autocomplete="off" spellcheck="false">
+            <button class="btn-toggle-visibility" id="btnToggleKey" title="Show/Hide">👁</button>
+          </div>
+          <p class="api-key-hint" id="apiKeyHint" style="display: none;"></p>
+        </div>
+
         <p class="error-text" id="apiKeyError" style="display: none;"></p>
         <div class="btn-row">
           <button class="btn-secondary" id="btnBackToProvider" data-i18n="common.back">Back</button>
