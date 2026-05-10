@@ -15,6 +15,7 @@ import {
   resolveWebUIDir,
   resolveHermesHome,
   resolveVenvPath,
+  resolveVenvSitePackagesPath,
   resolveResourcesPath,
   resolveWebUIPort,
   buildEnvPath,
@@ -128,6 +129,7 @@ export class WebUIProcess {
     const entry = resolveWebUIEntry();
     const cwd = resolveWebUIDir();
     const hermesHome = resolveHermesHome();
+    const sitePackagesPath = resolveVenvSitePackagesPath();
 
     // 诊断：打印所有关键路径
     diagLog(`--- webui start ---`);
@@ -136,6 +138,7 @@ export class WebUIProcess {
     diagLog(`pythonBin=${pythonBin} exists=${fs.existsSync(pythonBin)}`);
     diagLog(`entry=${entry} exists=${fs.existsSync(entry)}`);
     diagLog(`cwd=${cwd} exists=${fs.existsSync(cwd)}`);
+    diagLog(`sitePackages=${sitePackagesPath} exists=${fs.existsSync(sitePackagesPath)}`);
     diagLog(`hermesHome=${hermesHome}`);
     diagLog(`port=${this.port}`);
 
@@ -169,6 +172,8 @@ export class WebUIProcess {
         HERMES_HOME: hermesHome,
         HERMES_WEBUI_PORT: String(this.port),
         HERMES_WEBUI_HOST: "127.0.0.1",
+        HERMES_WEBUI_AGENT_DIR: sitePackagesPath,
+        HERMES_WEBUI_PYTHON: pythonBin,
         VIRTUAL_ENV: resolveVenvPath(),
         PATH: envPath,
         // 告诉 hermes-agent 安装位置
@@ -177,9 +182,7 @@ export class WebUIProcess {
         PYTHONUNBUFFERED: "1",
         // 使用 standalone python 但加载 venv 的 site-packages
         // Windows: Lib/site-packages, macOS/Linux: lib/python3.11/site-packages
-        PYTHONPATH: IS_WIN
-          ? path.join(resolveVenvPath(), "Lib", "site-packages")
-          : path.join(resolveVenvPath(), "lib", "python3.11", "site-packages"),
+        PYTHONPATH: sitePackagesPath,
       },
       stdio: ["ignore", "pipe", "pipe"],
       windowsHide: true,

@@ -74,6 +74,15 @@ export function resolveVenvPythonBin(): string {
   return path.join(venv, "bin", "python3.11");
 }
 
+/** venv 的 site-packages 目录（包含 pip 安装后的 hermes-agent 代码） */
+export function resolveVenvSitePackagesPath(): string {
+  const venv = resolveVenvPath();
+  if (IS_WIN) {
+    return path.join(venv, "Lib", "site-packages");
+  }
+  return path.join(venv, "lib", "python3.11", "site-packages");
+}
+
 // ── Node.js 路径（用于 browser tools） ──
 
 /** Node.js 二进制（捆绑的 Node.js 22） */

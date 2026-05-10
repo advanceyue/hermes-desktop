@@ -46,6 +46,9 @@ console.log(`\n[package-resources] 目标: ${targetId}\n`);
 const ROOT = path.resolve(__dirname, "..");
 const CACHE_DIR = path.join(ROOT, ".cache");
 const TARGET_DIR = path.join(ROOT, "resources", "targets", targetId);
+const PACKAGE_JSON = JSON.parse(fs.readFileSync(path.join(ROOT, "package.json"), "utf-8"));
+const HERMES_AGENT_VERSION = PACKAGE_JSON.hermes?.hermesAgent ?? "unknown";
+const HERMES_WEBUI_VERSION = PACKAGE_JSON.hermes?.hermesWebUI ?? "unknown";
 
 fs.mkdirSync(CACHE_DIR, { recursive: true });
 fs.mkdirSync(TARGET_DIR, { recursive: true });
@@ -70,6 +73,12 @@ function isStampValid(name, version) {
 
 function writeStamp(name, version) {
   fs.writeFileSync(stampFile(name), version, "utf-8");
+}
+
+function resolveVenvSitePackages(venvDir) {
+  return targetPlatform === "win32"
+    ? path.join(venvDir, "Lib", "site-packages")
+    : path.join(venvDir, "lib", "python3.11", "site-packages");
 }
 
 function download(url, destPath) {
@@ -211,6 +220,9 @@ async function createVenv() {
   // 不用 -e（editable），确保代码实际复制到 site-packages，便于在其他机器上运行
   exec(`"${venvPythonBin}" -m pip install "${HERMES_AGENT_DIR}[cli,pty,mcp,web,voice,messaging]"`);
   exec(`"${venvPythonBin}" -m pip install "pyyaml>=6.0"`, { stdio: "pipe" });
+
+  const sitePackages = resolveVenvSitePackages(venvDir);
+  fs.writeFileSync(path.join(sitePackages, "VERSION"), `v${HERMES_AGENT_VERSION}\n`, "utf-8");
 
   writeStamp("venv", "hermes-agent-latest");
   console.log(`  venv 创建完成\n`);
@@ -391,6 +403,14 @@ async function copyWebUI() {
       copyDirSync(src, path.join(webuiDir, d));
     }
   }
+
+  const versionDir = path.join(webuiDir, "api");
+  fs.mkdirSync(versionDir, { recursive: true });
+  fs.writeFileSync(
+    path.join(versionDir, "_version.py"),
+    `__version__ = 'v${HERMES_WEBUI_VERSION}'\n`,
+    "utf-8"
+  );
 
   console.log(`  hermes-webui 复制完成\n`);
 }
