@@ -1,6 +1,6 @@
 {
   "name": "hermes-desktop",
-  "version": "0.1.0",
+  "version": "2026.510.0",
   "private": true,
   "description": "Hermes Desktop — one-click installer for Hermes Agent",
   "main": "dist/main.js",
@@ -27,7 +27,7 @@
     "node": ">=22.12.0"
   },
   "hermes": {
-    "hermesAgent": "0.9.0",
-    "hermesWebUI": "0.50.38"
+    "hermesAgent": "0.13.0",
+    "hermesWebUI": "0.51.34"
   }
 }
