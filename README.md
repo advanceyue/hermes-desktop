@@ -11,9 +11,14 @@
 
 <p align="center">
   <a href="https://github.com/advanceyue/hermes-desktop/releases/latest"><img src="https://img.shields.io/github/v/release/advanceyue/hermes-desktop?style=flat-square&color=8B5CF6" alt="Latest Release" /></a>
-  <a href="https://github.com/advanceyue/hermes-desktop/releases"><img src="https://img.shields.io/github/downloads/advanceyue/hermes-desktop/total?style=flat-square&color=8B5CF6" alt="Downloads" /></a>
+  <a href="https://github.com/advanceyue/hermes-desktop/releases"><img src="https://img.shields.io/github/downloads/advanceyou/hermes-desktop/total?style=flat-square&color=8B5CF6" alt="Downloads" /></a>
   <a href="https://github.com/advanceyue/hermes-desktop/blob/main/LICENSE"><img src="https://img.shields.io/github/license/advanceyue/hermes-desktop?style=flat-square" alt="License" /></a>
+  <img src="https://img.shields.io/badge/Linux%20ARM64-AppImage-success?style=flat-square&color=22c55e" alt="Linux ARM64" />
 </p>
+
+> **This fork adds Linux ARM64 (aarch64) support** — tested and verified on NVIDIA Jetson AGX Orin.
+> First known build of Hermes Desktop on Linux ARM64. See [Building on Linux ARM64](#-building-on-linux-arm64-aarch64) below.
+> Upstream PR: [advanceyue/hermes-desktop#6](https://github.com/advanceyue/hermes-desktop/pull/6)
 
 ---
 
@@ -224,6 +229,89 @@ A: Everything stays on your machine in `~/.hermes/` — config, API keys, chat h
 
 ---
 
+## 🐧 Building on Linux ARM64 (aarch64)
+
+> **First known Linux ARM64 build of Hermes Desktop.**
+> Contributed by [@fdfretes](https://github.com/fdfretes) — verified on NVIDIA Jetson AGX Orin (Ubuntu 22.04, JetPack 6.2, 64GB).
+
+### Supported Linux ARM64 hardware
+
+| Device | Status |
+|---|---|
+| NVIDIA Jetson AGX Orin | ✅ Verified |
+| NVIDIA Jetson Orin NX / Nano | 🔲 Should work (untested) |
+| Raspberry Pi 4/5 (64-bit OS) | 🔲 Should work (untested) |
+| Any aarch64 Linux machine | 🔲 Should work (untested) |
+
+### Prerequisites
+
+- Ubuntu 22.04+ or any modern aarch64 Linux distro
+- Node.js >= 22 (install via [nvm](https://github.com/nvm-sh/nvm): `nvm install 22`)
+- Git
+- `fuse` or `fuse2` (required to run AppImages: `sudo apt install fuse`)
+
+### Build steps
+
+```bash
+# 1. Clone this fork
+git clone https://github.com/fdfretes/hermes-desktop.git
+cd hermes-desktop
+
+# 2. Clone dependencies
+git clone https://github.com/NousResearch/hermes-agent.git ~/.hermes/hermes-agent
+git clone https://github.com/nesquena/hermes-webui.git ~/code/hermes-webui
+
+# 3. Install Node.js dependencies
+npm install
+
+# 4. Build Linux ARM64 AppImage (downloads Python 3.11, Node.js 22, ripgrep automatically)
+npm run dist:linux:arm64
+```
+
+Output: `out/linux-arm64/HermesDesktop-{version}-arm64.AppImage`
+
+### Running the AppImage
+
+```bash
+chmod +x out/linux-arm64/HermesDesktop-*.AppImage
+./out/linux-arm64/HermesDesktop-*.AppImage --no-sandbox
+```
+
+> **Note:** The `--no-sandbox` flag is required on most Linux ARM64 systems where the kernel doesn't support user namespaces for the Electron sandbox (common on Jetson and similar embedded platforms).
+
+### Using a local model (Ollama)
+
+Hermes Desktop on ARM64 works great fully offline with [Ollama](https://ollama.com):
+
+```bash
+# Install Ollama and pull a model
+curl -fsSL https://ollama.com/install.sh | sh
+ollama pull qwen3-coder:30b   # or any model that fits your RAM
+
+# Configure Hermes to use Ollama (in the app Setup, or ~/.hermes/config.yaml)
+# provider: custom
+# model: qwen3-coder:30b
+# base_url: http://localhost:11434/v1
+# api_key: ollama
+```
+
+No cloud API keys needed — runs entirely on-device.
+
+### What changed from upstream
+
+Three files were modified to enable Linux builds:
+
+| File | Change |
+|---|---|
+| `scripts/package-resources.js` | Added `linux-arm64` / `linux-x64` to all three `archMap` objects (Python standalone, Node.js, ripgrep) |
+| `electron-builder.yml` | Added Linux AppImage build target |
+| `package.json` | Added `dist:linux:arm64` build script |
+| `scripts/afterPack.js` | **Bug fix:** `copyDirSync` now handles symlinks pointing to directories (Linux venvs have `lib64 → lib`; the old code crashed with `EISDIR` on all Linux builds) |
+
+The `afterPack.js` fix applies to all Linux builds (x64 and arm64), not just ARM64.
+
+---
+
 ## 🛠️ Building from Source
 
 ### Prerequisites
@@ -299,6 +387,7 @@ npm run package:resources -- --platform darwin --arch arm64
 - [Hermes Agent](https://github.com/NousResearch/hermes-agent) by Nous Research
 - [hermes-webui](https://github.com/nesquena/hermes-webui) by nesquena
 - Built with [Electron](https://www.electronjs.org/) and [electron-builder](https://www.electron.build/)
+- Linux ARM64 / aarch64 support by [@fdfretes](https://github.com/fdfretes) (first build on NVIDIA Jetson AGX Orin)
 
 ## 📄 License
 
