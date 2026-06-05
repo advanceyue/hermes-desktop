@@ -41,8 +41,13 @@ function copyDirSync(src, dest) {
       copyDirSync(s, d);
     } else if (entry.isSymbolicLink()) {
       const real = fs.realpathSync(s);
-      fs.copyFileSync(real, d);
-      fs.chmodSync(d, fs.statSync(real).mode);
+      const realStat = fs.statSync(real);
+      if (realStat.isDirectory()) {
+        copyDirSync(real, d);
+      } else {
+        fs.copyFileSync(real, d);
+        fs.chmodSync(d, realStat.mode);
+      }
     } else {
       fs.copyFileSync(s, d);
       fs.chmodSync(d, fs.statSync(s).mode);

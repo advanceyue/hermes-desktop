@@ -164,6 +164,8 @@ async function installPython() {
     "darwin-x64": "x86_64-apple-darwin",
     "win32-x64": "x86_64-pc-windows-msvc",
     "win32-arm64": "aarch64-pc-windows-msvc",
+    "linux-arm64": "aarch64-unknown-linux-gnu",
+    "linux-x64": "x86_64-unknown-linux-gnu",
   };
   const triple = archMap[targetId];
   if (!triple) throw new Error(`不支持的平台: ${targetId}`);
@@ -245,6 +247,8 @@ async function installNodejs() {
     "darwin-x64": "darwin-x64",
     "win32-x64": "win-x64",
     "win32-arm64": "win-arm64",
+    "linux-arm64": "linux-arm64",
+    "linux-x64": "linux-x64",
   };
   const nodeArch = archMap[targetId];
   if (!nodeArch) throw new Error(`不支持的平台: ${targetId}`);
@@ -308,6 +312,8 @@ async function installRipgrep() {
     "darwin-x64": "x86_64-apple-darwin",
     "win32-x64": "x86_64-pc-windows-msvc",
     "win32-arm64": "aarch64-pc-windows-msvc",
+    "linux-arm64": "aarch64-unknown-linux-gnu",
+    "linux-x64": "x86_64-unknown-linux-gnu",
   };
   const triple = archMap[targetId];
   if (!triple) throw new Error(`不支持的平台: ${targetId}`);

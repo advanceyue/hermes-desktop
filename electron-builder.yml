@@ -35,6 +35,14 @@ dmg:
   writeUpdateInfo: false
   artifactName: "HermesDesktop-${version}-${arch}.${ext}"
 
+# --- Linux ---
+linux:
+  target:
+    - AppImage
+  icon: assets/icon.png
+  category: Utility
+  artifactName: "HermesDesktop-${version}-${arch}.${ext}"
+
 # --- Windows (Phase 2) ---
 win:
   target: nsis
