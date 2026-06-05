@@ -12,6 +12,7 @@
     "dist:mac": "npm run dist:mac:arm64",
     "dist:mac:arm64": "npm run build && HERMES_DESKTOP_TARGET=darwin-arm64 npm run package:resources -- --platform darwin --arch arm64 && electron-builder --mac --arm64 --config.directories.output=out/darwin-arm64 --publish never",
     "dist:mac:x64": "npm run build && HERMES_DESKTOP_TARGET=darwin-x64 npm run package:resources -- --platform darwin --arch x64 && electron-builder --mac --x64 --config.directories.output=out/darwin-x64 --publish never",
+    "dist:linux:arm64": "npm run build && HERMES_DESKTOP_TARGET=linux-arm64 npm run package:resources -- --platform linux --arch arm64 && electron-builder --linux --arm64 --config.directories.output=out/linux-arm64 --publish never",
     "clean": "rm -rf dist resources/targets out"
   },
   "dependencies": {
